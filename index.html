@@ -1,0 +1,1124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LuxStay Hotel Reviews</title>
+  <script src="https://cdn.tailwindcss.com/3.4.16"></script>
+  <script>
+    // Tailwind CSS configuration for custom colors and border-radius
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#4285F4', // A vibrant blue for primary actions
+            secondary: '#FFC107' // A warm yellow for accents like stars
+          },
+          borderRadius: {
+            'none': '0px', 'sm': '4px', DEFAULT: '8px', 'md': '12px',
+            'lg': '16px', 'xl': '20px', '2xl': '24px', '3xl': '32px',
+            'full': '9999px', 'button': '8px' // Custom border-radius for buttons
+          }
+        }
+      }
+    }
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css">
+  <style>
+    body { font-family: 'Georgia', serif; }
+    .text-shadow { text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); }
+    .hero-section {
+      background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)),
+      url('https://readdy.ai/api/search-image?query=luxurious hotel lobby interior with elegant marble floors and crystal chandeliers, soft golden lighting creating a warm ambiance, plush seating areas with velvet upholstery, ornate gold details on cream-colored walls, fresh flower arrangements&width=1200&height=600&seq=12345&orientation=landscape');
+      background-size: cover;
+      background-position: center;
+      min-height: 400px;
+      display: flex;
+      align-items: center;
+    }
+    .review-card { transition: transform 0.3s ease; }
+    .review-card:hover { transform: translateY(-5px); }
+    .line-clamp-2 {
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+    .rating-container input { display: none; }
+    .rating-container label {
+      cursor: pointer;
+      color: #e2e8f0;
+      transition: color 0.2s ease;
+    }
+    .rating-container input:checked ~ label { color: #FFC107; }
+    .rating-container label:hover, .rating-container label:hover ~ label { color: #FFC107; }
+    .rating-container input:checked + label:hover,
+    .rating-container input:checked ~ label:hover,
+    .rating-container label:hover ~ input:checked ~ label,
+    .rating-container input:checked ~ label:hover ~ label { color: #FFD700; }
+  </style>
+</head>
+<body class="min-h-screen bg-gray-50">
+<nav class="bg-white shadow-md py-4 px-6 flex items-center justify-between sticky top-0 z-50">
+  <a href="#" onclick="switchView('welcome'); return false;" class="text-3xl font-['Pacifico'] text-primary">LuxStay</a>
+  <div class="hidden md:flex items-center space-x-8">
+    <a href="#" class="text-gray-700 hover:text-primary">Home</a>
+    <div class="relative group">
+      <button class="text-gray-700 hover:text-primary flex items-center whitespace-nowrap">
+        Rooms & Suites
+        <span class="ml-1 w-4 h-4 flex items-center justify-center"><i class="ri-arrow-down-s-line"></i></span>
+      </button>
+      <div class="absolute left-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 hidden group-hover:block z-20">
+        <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Deluxe Room</a>
+        <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Executive Suite</a>
+        <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Presidential Suite</a>
+        <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Penthouse</a>
+      </div>
+    </div>
+    <a href="#" class="text-gray-700 hover:text-primary">Bookings</a>
+
+    <div class="relative group">
+      <button class="text-gray-700 hover:text-primary flex items-center whitespace-nowrap">
+        Reviews
+        <span class="ml-1 w-4 h-4 flex items-center justify-center"><i class="ri-arrow-down-s-line"></i></span>
+      </button>
+      <div class="absolute left-0 pt-2 w-48 bg-white rounded-md shadow-lg py-1 hidden group-hover:block z-20">
+        <a href="#" onclick="switchView('guest'); return false;" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">View Reviews</a>
+        <a href="#" onclick="switchView('form'); return false;" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Submit Review</a>
+        <a href="#" onclick="switchView('admin'); return false;" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Admin Panel</a>
+      </div>
+    </div>
+    <a href="#" class="text-gray-700 hover:text-primary">Contact</a>
+  </div>
+  <div class="flex items-center space-x-4">
+    <a href="#" class="bg-primary text-white px-4 py-2 rounded-button hover:bg-blue-600 transition duration-300 whitespace-nowrap">Sign In</a>
+  </div>
+</nav>
+
+<main class="flex-grow">
+  <section id="welcomeSection" class="hero-section py-24 text-white">
+    <div class="container mx-auto px-6 relative z-10 text-center">
+      <h1 class="text-4xl md:text-5xl font-bold mb-4 text-shadow">Welcome to LuxStay Reviews</h1>
+      <p class="text-xl mb-2 text-shadow">Explore what our guests love or share your own experience.</p>
+    </div>
+  </section>
+
+  <section id="guestReviewsSection" class="py-12 bg-gray-50 hidden">
+    <div class="hero-section py-24 text-white">
+      <div class="container mx-auto px-6 relative z-10">
+        <h1 class="text-4xl md:text-5xl font-bold mb-4 text-shadow">Guest Reviews</h1>
+        <p class="text-xl mb-2 text-shadow">Discover what our guests have to say about their luxurious experience at LuxStay.</p>
+      </div>
+    </div>
+
+    <div class="container mx-auto px-6 mt-12">
+      <div class="flex flex-wrap items-center justify-between gap-4 mb-8">
+        <div class="flex items-center space-x-4">
+          <div class="relative">
+            <select id="guestRoomTypeFilter" class="appearance-none bg-white border border-gray-300 rounded-lg px-4 py-2 pr-8 focus:outline-none focus:border-primary">
+              <option value="all">All Room Types</option>
+              <option value="Deluxe Room">Deluxe Room</option>
+              <option value="Executive Suite">Executive Suite</option>
+              <option value="Presidential Suite">Presidential Suite</option>
+              <option value="Penthouse">Penthouse</option>
+            </select>
+            <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+              <i class="ri-arrow-down-s-line"></i>
+            </div>
+          </div>
+          <div class="relative">
+            <select id="guestRatingFilter" class="appearance-none bg-white border border-gray-300 rounded-lg px-4 py-2 pr-8 focus:outline-none focus:border-primary">
+              <option value="0">Rating: All</option>
+              <option value="5">5 Stars</option>
+              <option value="4">4 Stars</option>
+              <option value="3">3 Stars</option>
+              <option value="2">2 Stars</option>
+              <option value="1">1 Star</option>
+            </select>
+            <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+              <i class="ri-arrow-down-s-line"></i>
+            </div>
+          </div>
+        </div>
+        <div class="relative">
+          <input type="text" id="guestSearchInput" placeholder="Search reviews..." class="w-full md:w-64 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-primary">
+          <button class="absolute right-3 top-1/2 transform -translate-y-1/2">
+            <i class="ri-search-line text-gray-400"></i>
+          </button>
+        </div>
+      </div>
+
+      <div class="bg-gray-50 rounded-lg p-6 mb-12 border border-gray-200 shadow-sm">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-6 text-center">
+          <div>
+            <h3 class="text-4xl font-bold text-primary mb-2">4.8</h3>
+            <p class="text-gray-600">Overall Rating</p>
+            <div class="flex justify-center mt-2 text-secondary">
+              <i class="ri-star-fill"></i>
+              <i class="ri-star-fill"></i>
+              <i class="ri-star-fill"></i>
+              <i class="ri-star-fill"></i>
+              <i class="ri-star-half-fill"></i>
+            </div>
+          </div>
+          <div>
+            <h3 class="text-4xl font-bold text-primary mb-2">96%</h3>
+            <p class="text-gray-600">Would Recommend</p>
+          </div>
+          <div>
+            <h3 class="text-4xl font-bold text-primary mb-2">1,234</h3>
+            <p class="text-gray-600">Total Reviews</p>
+          </div>
+          <div>
+            <h3 class="text-4xl font-bold text-primary mb-2">98%</h3>
+            <p class="text-gray-600">Satisfaction Rate</p>
+          </div>
+        </div>
+      </div>
+
+      <div id="reviewCardsContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      </div>
+
+      <div id="loadMoreContainer" class="text-center mt-12">
+        <button id="loadMoreReviewsBtn" class="bg-primary text-white px-8 py-3 rounded-button hover:bg-blue-600 transition duration-300">Load More Reviews</button>
+      </div>
+    </div>
+  </section>
+
+  <section id="adminReviewsSection" class="py-16 px-4 hidden">
+    <div class="hero-section py-24 text-white">
+      <div class="container mx-auto px-6 relative z-10">
+        <h1 class="text-4xl md:text-5xl font-bold mb-4 text-shadow">Admin Review Moderation</h1>
+        <p class="text-xl mb-2 text-shadow">Monitor and moderate guest reviews to maintain our high standards of service.</p>
+      </div>
+    </div>
+
+    <div class="max-w-7xl mx-auto bg-white rounded-lg shadow-lg p-8 md:p-10 border border-gray-100 mt-12">
+      <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
+        <h2 class="text-3xl font-bold text-gray-800">Review Management</h2>
+        <div class="flex flex-wrap gap-4">
+          <div class="relative w-full md:w-auto">
+            <input type="text" id="adminSearchInput" placeholder="Search reviews..." class="pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-primary w-full">
+            <i class="ri-search-line absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"></i>
+          </div>
+          <select id="adminStatusFilter" class="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-primary w-full md:w-auto">
+            <option value="all">All Reviews</option>
+            <option value="Pending">Pending</option>
+            <option value="Approved">Approved</option>
+            <option value="Rejected">Rejected</option>
+          </select>
+        </div>
+      </div>
+      <div class="overflow-x-auto">
+        <table class="w-full min-w-[700px] border-collapse">
+          <thead>
+          <tr class="border-b border-gray-200 bg-gray-50">
+            <th class="text-left py-4 px-4 font-semibold text-gray-600 whitespace-nowrap">Guest</th>
+            <th class="text-left py-4 px-4 font-semibold text-gray-600 whitespace-nowrap">Room Type</th>
+            <th class="text-left py-4 px-4 font-semibold text-gray-600 whitespace-nowrap">Rating</th>
+            <th class="text-left py-4 px-4 font-semibold text-gray-600 whitespace-nowrap">Reviews</th>
+            <th class="text-left py-4 px-4 font-semibold text-gray-600 whitespace-nowrap">Date</th>
+            <th class="text-left py-4 px-4 font-semibold text-gray-600 whitespace-nowrap">Status</th>
+            <th class="text-left py-4 px-4 font-semibold text-gray-600 whitespace-nowrap">Actions</th>
+          </tr>
+          </thead>
+          <tbody id="adminReviewsTableBody">
+          </tbody>
+        </table>
+      </div>
+      <div class="mt-6 flex flex-col md:flex-row items-center justify-between gap-4">
+        <div id="adminPaginationInfo" class="text-sm text-gray-500">
+          Showing 1 to 3 of 50 entries
+        </div>
+        <div id="adminPaginationButtons" class="flex gap-2">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="reviewFormSection" class="py-16 px-4 hidden">
+    <div class="hero-section py-24 text-white">
+      <div class="container mx-auto px-6 relative z-10">
+        <h1 id="formTitle" class="text-4xl md:text-5xl font-bold mb-4 text-shadow">Submit Your Review</h1>
+        <p class="text-xl mb-2 text-shadow">We value your feedback! Share your experience at LuxStay.</p>
+      </div>
+    </div>
+
+    <div class="max-w-3xl mx-auto bg-white rounded-lg shadow-lg p-8 md:p-10 border border-gray-100 mt-12">
+      <h2 class="text-3xl font-bold text-gray-800 mb-6">Share Your Experience</h2>
+      <form id="reviewForm">
+        <input type="hidden" id="reviewId" value=""> <div class="mb-6">
+        <label for="guestName" class="block text-gray-700 mb-2">Full Name</label>
+        <input type="text" id="guestName" class="w-full px-4 py-3 border border-gray-300 rounded focus:outline-none focus:border-primary text-gray-700" placeholder="John Smith" required>
+      </div>
+        <div class="mb-6">
+          <label for="guestEmail" class="block text-gray-700 mb-2">Email Address</label>
+          <input type="email" id="guestEmail" class="w-full px-4 py-3 border border-gray-300 rounded focus:outline-none focus:border-primary text-gray-700" placeholder="john.smith@example.com" required>
+        </div>
+        <div class="mb-6">
+          <label class="block text-gray-700 mb-2">Your Rating</label>
+          <div class="rating-container flex items-center space-x-2 text-3xl">
+            <input type="radio" name="rating" id="star5" value="5" required>
+            <label for="star5" class="w-8 h-8 flex items-center justify-center"><i class="ri-star-fill"></i></label>
+            <input type="radio" name="rating" id="star4" value="4">
+            <label for="star4" class="w-8 h-8 flex items-center justify-center"><i class="ri-star-fill"></i></label>
+            <input type="radio" name="rating" id="star3" value="3">
+            <label for="star3" class="w-8 h-8 flex items-center justify-center"><i class="ri-star-fill"></i></label>
+            <input type="radio" name="rating" id="star2" value="2">
+            <label for="star2" class="w-8 h-8 flex items-center justify-center"><i class="ri-star-fill"></i></label>
+            <input type="radio" name="rating" id="star1" value="1">
+            <label for="star1" class="w-8 h-8 flex items-center justify-center"><i class="ri-star-fill"></i></label>
+          </div>
+        </div>
+        <div class="mb-6">
+          <label for="roomType" class="block text-gray-700 mb-2">Room Type</label>
+          <div class="relative">
+            <select id="roomType" class="appearance-none w-full px-4 py-3 border border-gray-300 rounded focus:outline-none focus:border-primary text-gray-700 pr-8" required>
+              <option value="">Select room type</option>
+              <option value="Deluxe Room">Deluxe Room</option>
+              <option value="Executive Suite">Executive Suite</option>
+              <option value="Presidential Suite">Presidential Suite</option>
+              <option value="Penthouse">Penthouse</option>
+            </select>
+            <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+              <i class="ri-arrow-down-s-line"></i>
+            </div>
+          </div>
+        </div>
+        <div class="mb-8">
+          <label for="feedback" class="block text-gray-700 mb-2">Your Reviews</label>
+          <textarea id="feedback" rows="6" class="w-full px-4 py-3 border border-gray-300 rounded focus:outline-none focus:border-primary text-gray-700" placeholder="Please share details about your stay experience..." required></textarea>
+        </div>
+        <div class="mb-8">
+          <label class="flex items-center">
+            <input type="checkbox" id="privacyConsent" class="form-checkbox h-5 w-5 text-primary" required>
+            <span class="ml-2 text-gray-700">I agree to the <a href="#" class="text-primary hover:underline">privacy policy</a> and allow LuxStay to publish my review</span>
+          </label>
+        </div>
+        <div class="flex flex-col sm:flex-row gap-4">
+          <button type="submit" id="submitReviewBtn" class="bg-primary text-white px-6 py-3 rounded-button hover:bg-blue-600 transition duration-300 whitespace-nowrap">Submit Review</button>
+          <button type="reset" id="clearFormBtn" class="bg-gray-200 text-gray-700 px-6 py-3 rounded-button hover:bg-gray-300 transition duration-300 whitespace-nowrap">Clear Form</button>
+        </div>
+      </form>
+    </div>
+  </section>
+
+</main>
+
+<div id="actionModal" class="fixed inset-0 bg-gray-600 bg-opacity-75 flex items-center justify-center z-50 hidden">
+  <div class="bg-white rounded-lg shadow-xl p-8 max-w-md w-full mx-4">
+    <h3 id="modalTitle" class="text-2xl font-bold text-gray-800 mb-4"></h3>
+    <p id="modalMessage" class="text-gray-700 mb-6"></p>
+    <div id="modalEditForm" class="hidden mb-6">
+      <div class="mb-4">
+        <label for="editGuestName" class="block text-gray-700 mb-2">Guest Name</label>
+        <input type="text" id="editGuestName" class="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:border-primary text-gray-700">
+      </div>
+      <div class="mb-4">
+        <label for="editRoomType" class="block text-gray-700 mb-2">Room Type</label>
+        <select id="editRoomType" class="appearance-none w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:border-primary text-gray-700 pr-8">
+          <option value="Deluxe Room">Deluxe Room</option>
+          <option value="Executive Suite">Executive Suite</option>
+          <option value="Presidential Suite">Presidential Suite</option>
+          <option value="Penthouse">Penthouse</option>
+        </select>
+      </div>
+      <div class="mb-4">
+        <label for="editRating" class="block text-gray-700 mb-2">Rating</label>
+        <input type="number" id="editRating" min="1" max="5" class="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:border-primary text-gray-700">
+      </div>
+      <div class="mb-4">
+        <label for="editReviewText" class="block text-gray-700 mb-2">Review Text</label>
+        <textarea id="editReviewText" rows="4" class="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:border-primary text-gray-700"></textarea>
+      </div>
+      <div class="mb-4">
+        <label for="editStatus" class="block text-gray-700 mb-2">Status</label>
+        <select id="editStatus" class="appearance-none w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:border-primary text-gray-700 pr-8">
+          <option value="Pending">Pending</option>
+          <option value="Approved">Approved</option>
+          <option value="Rejected">Rejected</option>
+        </select>
+      </div>
+    </div>
+    <div class="flex justify-end space-x-4">
+      <button id="modalCancelBtn" class="px-6 py-2 rounded-button border border-gray-300 text-gray-700 hover:bg-gray-100 transition duration-300">Cancel</button>
+      <button id="modalConfirmBtn" class="px-6 py-2 rounded-button bg-primary text-white hover:bg-blue-600 transition duration-300">Confirm</button>
+    </div>
+  </div>
+</div>
+
+<footer class="bg-gray-900 text-white py-12">
+  <div class="container mx-auto px-6">
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+      <div>
+        <h3 class="text-2xl font-['Pacifico'] mb-4">LuxStay</h3>
+        <p class="text-gray-400">Experience luxury beyond imagination at LuxStay, where every moment is crafted for your comfort and delight.</p>
+      </div>
+      <div>
+        <h4 class="text-lg font-bold mb-4">Quick Links</h4>
+        <ul class="space-y-2">
+          <li><a href="#" class="text-gray-400 hover:text-white">Home</a></li>
+          <li><a href="#" class="text-gray-400 hover:text-white">Rooms & Suites</a></li>
+          <li><a href="#" class="text-gray-400 hover:text-white">Bookings</a></li>
+          <li><a href="#" class="text-gray-400 hover:text-white" onclick="switchView('guest'); return false;">Reviews</a></li>
+          <li><a href="#" class="text-gray-400 hover:text-white">Contact</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="text-lg font-bold mb-4">Contact Us</h4>
+        <ul class="space-y-2 text-gray-400">
+          <li class="flex items-start">
+            <span class="w-5 h-5 flex items-center justify-center mr-2 mt-1"><i class="ri-map-pin-line"></i></span>
+            <span>123 Luxury Avenue, New York, NY 10001</span>
+          </li>
+          <li class="flex items-center">
+            <span class="w-5 h-5 flex items-center justify-center mr-2"><i class="ri-phone-line"></i></span>
+            <span>+1 (555) 123-4567</span>
+          </li>
+          <li class="flex items-center">
+            <span class="w-5 h-5 flex items-center justify-center mr-2"><i class="ri-mail-line"></i></span>
+            <span>info@luxstay.com</span>
+          </li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="text-lg font-bold mb-4">Newsletter</h4>
+        <p class="text-gray-400 mb-4">Subscribe to receive updates on our latest offers.</p>
+        <div class="flex">
+          <input type="email" placeholder="Your email" class="px-4 py-2 w-full rounded-l border-none text-gray-800 text-sm">
+          <button class="bg-primary text-white px-4 py-2 rounded-r hover:bg-blue-600 transition duration-300 whitespace-nowrap">Subscribe</button>
+        </div>
+      </div>
+    </div>
+    <div class="border-t border-gray-800 mt-10 pt-6 flex flex-col md:flex-row justify-between items-center">
+      <p class="text-gray-400 text-sm">© 2025 LuxStay. All rights reserved.</p>
+      <div class="flex space-x-4 mt-4 md:mt-0">
+        <a href="#" class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center hover:bg-primary transition duration-300"><i class="ri-facebook-fill text-white"></i></a>
+        <a href="#" class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center hover:bg-primary transition duration-300"><i class="ri-twitter-x-fill text-white"></i></a>
+        <a href="#" class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center hover:bg-primary transition duration-300"><i class="ri-instagram-line text-white"></i></a>
+        <a href="#" class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center hover:bg-primary transition duration-300"><i class="ri-pinterest-fill text-white"></i></a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Base URL for your Spring Boot API
+  const API_BASE_URL = 'http://localhost:8081/api/reviews';
+
+  // Global variable to store reviews fetched from the backend
+  let allReviews = []; // Renamed from reviewsData for clarity in this combined app
+  let guestReviewsDisplayed = 0;
+  const GUEST_REVIEWS_PER_LOAD = 3;
+  let currentAdminPage = 1;
+  const ADMIN_REVIEWS_PER_PAGE = 5;
+
+  // --- DOM Elements ---
+  const welcomeSection = document.getElementById('welcomeSection');
+  const guestReviewsSection = document.getElementById('guestReviewsSection');
+  const adminReviewsSection = document.getElementById('adminReviewsSection');
+  const reviewFormSection = document.getElementById('reviewFormSection');
+
+  // Guest view elements
+  const reviewCardsContainer = document.getElementById('reviewCardsContainer');
+  const loadMoreReviewsBtn = document.getElementById('loadMoreReviewsBtn');
+  const guestRoomTypeFilter = document.getElementById('guestRoomTypeFilter');
+  const guestRatingFilter = document.getElementById('guestRatingFilter');
+  const guestSearchInput = document.getElementById('guestSearchInput');
+  const overallRatingElement = document.getElementById('overallRating');
+  const overallStarsContainer = document.getElementById('overallStars');
+  const recommendationRateElement = document.getElementById('recommendationRate');
+  const totalReviewsCountElement = document.getElementById('totalReviewsCount');
+  const satisfactionRateElement = document.getElementById('satisfactionRate');
+
+  // Admin view elements
+  const adminReviewsTableBody = document.getElementById('adminReviewsTableBody');
+  const adminSearchInput = document.getElementById('adminSearchInput');
+  const adminStatusFilter = document.getElementById('adminStatusFilter');
+  const adminPaginationInfo = document.getElementById('adminPaginationInfo');
+  const adminPaginationButtons = document.getElementById('adminPaginationButtons');
+
+  // Review form elements
+  const reviewForm = document.getElementById('reviewForm');
+  const reviewIdInput = document.getElementById('reviewId'); // Hidden input for review ID
+  const guestNameInput = document.getElementById('guestName');
+  const guestEmailInput = document.getElementById('guestEmail');
+  const ratingInputs = document.querySelectorAll('input[name="rating"]');
+  const roomTypeSelect = document.getElementById('roomType');
+  const feedbackTextarea = document.getElementById('feedback');
+  const formTitle = document.getElementById('formTitle'); // Title for the form section
+  const privacyConsentCheckbox = document.getElementById('privacyConsent'); // Privacy consent checkbox
+  const submitReviewBtn = document.getElementById('submitReviewBtn'); // Submit button
+  const clearFormBtn = document.getElementById('clearFormBtn'); // Clear form button
+
+  // Modal elements
+  const actionModal = document.getElementById('actionModal');
+  const modalTitle = document.getElementById('modalTitle');
+  const modalMessage = document.getElementById('modalMessage');
+  const modalEditForm = document.getElementById('modalEditForm');
+  const modalCancelBtn = document.getElementById('modalCancelBtn');
+  const modalConfirmBtn = document.getElementById('modalConfirmBtn');
+
+  // Edit form fields in modal (for admin panel editing)
+  const editGuestName = document.getElementById('editGuestName');
+  const editRoomType = document.getElementById('editRoomType');
+  const editRating = document.getElementById('editRating');
+  const editReviewText = document.getElementById('editReviewText');
+  const editStatus = document.getElementById('editStatus');
+
+  let currentReviewForAction = null; // Store the review object being acted upon in modal
+
+
+  // --- Helper Functions ---
+
+  /**
+   * Generates star icons based on a given rating.
+   * @param {number} rating - The rating value (e.g., 4.5).
+   * @returns {string} HTML string of star icons.
+   */
+  function getStarHtml(rating) {
+    let starsHtml = '';
+    for (let i = 1; i <= 5; i++) {
+      if (rating >= i) {
+        starsHtml += '<i class="ri-star-fill"></i>';
+      } else if (rating >= i - 0.5) {
+        starsHtml += '<i class="ri-star-half-fill"></i>';
+      } else {
+        starsHtml += '<i class="ri-star-line"></i>';
+      }
+    }
+    return starsHtml;
+  }
+
+  /**
+   * Displays a custom modal message for confirmations, edits, or errors.
+   * @param {string} title - The title of the modal.
+   * @param {string} message - The message content.
+   * @param {boolean} showEditForm - Whether to show the edit form fields within the modal.
+   * @param {function} onConfirm - Callback function when confirm is clicked.
+   * @param {object} reviewData - The review data if showing edit form (for admin modal).
+   */
+  function showModal(title, message, showEditForm, onConfirm, reviewData = null) {
+    modalTitle.textContent = title;
+    modalMessage.textContent = message;
+    modalEditForm.classList.toggle('hidden', !showEditForm);
+    actionModal.classList.remove('hidden');
+
+    if (showEditForm && reviewData) {
+      editGuestName.value = reviewData.guestName;
+      editRoomType.value = reviewData.roomType;
+      editRating.value = reviewData.rating;
+      editReviewText.value = reviewData.reviewText;
+      editStatus.value = reviewData.status;
+    }
+
+    const confirmHandler = () => {
+      onConfirm();
+      actionModal.classList.add('hidden');
+      modalConfirmBtn.removeEventListener('click', confirmHandler);
+      modalCancelBtn.removeEventListener('click', cancelHandler);
+    };
+
+    const cancelHandler = () => {
+      actionModal.classList.add('hidden');
+      modalConfirmBtn.removeEventListener('click', confirmHandler);
+      modalCancelBtn.removeEventListener('click', cancelHandler);
+    };
+
+    modalConfirmBtn.addEventListener('click', confirmHandler);
+    modalCancelBtn.addEventListener('click', cancelHandler);
+  }
+
+  // --- View Switching Logic ---
+
+  /**
+   * Switches the currently displayed section and fetches/renders data accordingly.
+   * @param {string} viewName - 'welcome', 'guest', 'admin', or 'form'.
+   * @param {object} [reviewToEdit=null] - Optional: review object to pre-fill form for editing.
+   */
+  async function switchView(viewName, reviewToEdit = null) {
+    // Hide all sections first
+    welcomeSection.classList.add('hidden');
+    guestReviewsSection.classList.add('hidden');
+    adminReviewsSection.classList.add('hidden');
+    reviewFormSection.classList.add('hidden');
+
+    // Fetch latest reviews whenever switching to a view that displays them
+    if (viewName === 'guest' || viewName === 'admin') {
+      await fetchAllReviews();
+    }
+
+    // Show the requested section and render its content
+    if (viewName === 'welcome') {
+      welcomeSection.classList.remove('hidden');
+    } else if (viewName === 'guest') {
+      guestReviewsSection.classList.remove('hidden');
+      renderGuestReviews();
+      updateReviewStats();
+    } else if (viewName === 'admin') {
+      adminReviewsSection.classList.remove('hidden');
+      currentAdminPage = 1; // Reset admin page on switch
+      renderAdminReviews();
+    } else if (viewName === 'form') {
+      reviewFormSection.classList.remove('hidden');
+      // Reset form and set title based on whether it's for new submission or edit
+      reviewForm.reset();
+      ratingInputs.forEach(input => input.checked = false);
+      privacyConsentCheckbox.checked = false; // Ensure privacy consent is reset
+
+      if (reviewToEdit) {
+        formTitle.textContent = 'Edit Your Review';
+        reviewIdInput.value = reviewToEdit.id;
+        guestNameInput.value = reviewToEdit.guestName;
+        guestEmailInput.value = reviewToEdit.guestEmail;
+        roomTypeSelect.value = reviewToEdit.roomType;
+        feedbackTextarea.value = reviewToEdit.reviewText;
+        // Set the rating radio button
+        document.querySelector(`input[name="rating"][value="${reviewToEdit.rating}"]`).checked = true;
+        submitReviewBtn.textContent = 'Update Review';
+        clearFormBtn.classList.add('hidden'); // Hide clear button when editing
+      } else {
+        formTitle.textContent = 'Submit Your Review';
+        reviewIdInput.value = ''; // Clear ID for new submissions
+        submitReviewBtn.textContent = 'Submit Review';
+        clearFormBtn.classList.remove('hidden'); // Show clear button for new submissions
+      }
+    }
+    window.scrollTo({ top: 0, behavior: 'smooth' }); // Scroll to top
+  }
+
+  // --- Data Fetching from Backend ---
+
+  /**
+   * Fetches all reviews from the backend API and updates the global allReviews array.
+   */
+  async function fetchAllReviews() {
+    try {
+      const response = await fetch(API_BASE_URL);
+      if (!response.ok) {
+        const errorBody = await response.text();
+        throw new Error(`HTTP error! Status: ${response.status}. Message: ${errorBody}`);
+      }
+      allReviews = await response.json();
+      console.log('Reviews fetched from backend:', allReviews);
+    } catch (error) {
+      console.error('Error fetching reviews:', error);
+      showModal('Error', 'Could not load reviews. Please ensure the backend server is running and accessible at ' + API_BASE_URL + '. Details: ' + error.message, false, () => {});
+      allReviews = []; // Clear data on error
+    }
+  }
+
+  // --- Guest View Functions (Read, Update, Delete for Guests) ---
+
+  /**
+   * Renders reviews in the guest section based on current filters and loaded count.
+   */
+  function renderGuestReviews() {
+    const roomType = guestRoomTypeFilter.value;
+    const rating = parseInt(guestRatingFilter.value);
+    const searchTerm = guestSearchInput.value.toLowerCase();
+
+    const filteredReviews = allReviews.filter(review => {
+      const matchesRoomType = roomType === 'all' || review.roomType === roomType;
+      const matchesRating = rating === 0 || review.rating === rating;
+      const matchesSearch = review.guestName.toLowerCase().includes(searchTerm) ||
+              review.reviewText.toLowerCase().includes(searchTerm) ||
+              review.roomType.toLowerCase().includes(searchTerm);
+      return review.status.toUpperCase() === 'APPROVED' && matchesRoomType && matchesRating && matchesSearch;
+    });
+
+    // Sort by date, newest first
+    filteredReviews.sort((a, b) => new Date(b.date) - new Date(a.date));
+
+    reviewCardsContainer.innerHTML = ''; // Clear existing cards
+    guestReviewsDisplayed = 0; // Reset counter for new filter/search
+
+    loadMoreReviewsBtn.classList.remove('hidden'); // Show load more button initially
+    loadMoreGuestReviews(filteredReviews); // Load initial set of reviews
+  }
+
+  /**
+   * Loads more reviews into the guest view.
+   * @param {Array} filteredReviews - The pre-filtered and sorted list of reviews.
+   */
+  function loadMoreGuestReviews(filteredReviews) {
+    const reviewsToLoad = filteredReviews.slice(guestReviewsDisplayed, guestReviewsDisplayed + GUEST_REVIEWS_PER_LOAD);
+
+    reviewsToLoad.forEach(review => {
+      const initials = review.guestName.split(' ').map(n => n[0]).join('').toUpperCase();
+      const reviewCardHtml = `
+                <div class="review-card bg-white rounded-lg shadow-md p-6 border border-gray-100">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="flex items-center">
+                            <div class="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center text-primary font-bold">${initials}</div>
+                            <div class="ml-3">
+                                <h4 class="font-bold">${review.guestName}</h4>
+                                <p class="text-sm text-gray-500">${review.roomType}</p>
+                            </div>
+                        </div>
+                        <div class="flex text-secondary">
+                            ${getStarHtml(review.rating)}
+                        </div>
+                    </div>
+                    <p class="text-gray-600 mb-4 line-clamp-4">"${review.reviewText}"</p>
+                    <div class="flex items-center justify-between text-sm text-gray-500">
+                        <span>${review.date}</span>
+                        <div class="flex items-center space-x-4">
+                            <button class="flex items-center space-x-1 hover:text-primary">
+                                <i class="ri-thumb-up-line"></i>
+                                <span>Helpful (${review.helpfulCount})</span>
+                            </button>
+                            <button class="flex items-center space-x-1 text-blue-500 hover:text-blue-700"
+                                    onclick="editReviewGuest('${review.id}')">
+                                <i class="ri-pencil-line"></i>
+                                <span>Edit</span>
+                            </button>
+                            <button class="flex items-center space-x-1 text-red-500 hover:text-red-700"
+                                    onclick="deleteReviewGuest('${review.id}')">
+                                <i class="ri-delete-bin-line"></i>
+                                <span>Delete</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+      reviewCardsContainer.insertAdjacentHTML('beforeend', reviewCardHtml);
+    });
+
+    guestReviewsDisplayed += reviewsToLoad.length;
+
+    if (guestReviewsDisplayed >= filteredReviews.length) {
+      loadMoreReviewsBtn.classList.add('hidden'); // Hide if all reviews are loaded
+    } else {
+      loadMoreReviewsBtn.classList.remove('hidden');
+    }
+  }
+
+  /**
+   * Updates the review statistics in the guest view.
+   */
+  function updateReviewStats() {
+    const approvedReviews = allReviews.filter(review => review.status.toUpperCase() === 'APPROVED');
+    const totalApprovedReviews = approvedReviews.length;
+
+    if (totalApprovedReviews === 0) {
+      overallRatingElement.textContent = 'N/A';
+      overallStarsContainer.innerHTML = getStarHtml(0);
+      recommendationRateElement.textContent = 'N/A';
+      totalReviewsCountElement.textContent = '0';
+      satisfactionRateElement.textContent = 'N/A';
+      return;
+    }
+
+    const totalRatingSum = approvedReviews.reduce((sum, review) => sum + review.rating, 0);
+    const averageRating = (totalRatingSum / totalApprovedReviews).toFixed(1);
+    overallRatingElement.textContent = averageRating;
+    overallStarsContainer.innerHTML = getStarHtml(parseFloat(averageRating));
+
+    recommendationRateElement.textContent = '96%'; // Example static value
+    satisfactionRateElement.textContent = '98%'; // Example static value
+    totalReviewsCountElement.textContent = allReviews.length; // Total reviews (approved + pending + rejected)
+  }
+
+  /**
+   * Handles editing a review from the guest view.
+   * @param {string} reviewId - The ID of the review to edit.
+   */
+  async function editReviewGuest(reviewId) {
+    const reviewToEdit = allReviews.find(r => r.id === reviewId);
+    if (reviewToEdit) {
+      // Switch to the form section and pre-fill it with review data
+      switchView('form', reviewToEdit);
+    } else {
+      showModal('Error', 'Review not found for editing.', false, () => {});
+    }
+  }
+
+  /**
+   * Handles deleting a review from the guest view.
+   * @param {string} reviewId - The ID of the review to delete.
+   */
+  async function deleteReviewGuest(reviewId) {
+    const reviewToDelete = allReviews.find(r => r.id === reviewId);
+    if (!reviewToDelete) {
+      showModal('Error', 'Review not found for deletion.', false, () => {});
+      return;
+    }
+
+    showModal('Confirm Deletion', `Are you sure you want to delete the review by ${reviewToDelete.guestName}? This action cannot be undone.`, false, async () => {
+      try {
+        const response = await fetch(`${API_BASE_URL}/${reviewId}`, {
+          method: 'DELETE',
+        });
+
+        if (response.ok) {
+          showModal('Success', 'Review deleted successfully!', false, () => {
+            switchView('guest'); // Refresh guest view after deletion
+          });
+        } else {
+          const errorText = await response.text();
+          throw new Error(`Server responded with: ${response.status} - ${errorText}`);
+        }
+      } catch (error) {
+        console.error('Error deleting review:', error);
+        showModal('Deletion Failed', 'An error occurred while deleting the review. Details: ' + error.message, false, () => {});
+      }
+    });
+  }
+
+
+  // --- Admin View Functions (Read, Update, Delete for Admin) ---
+
+  /**
+   * Renders reviews in the admin table based on current filters and pagination.
+   */
+  function renderAdminReviews() {
+    const searchTerm = adminSearchInput.value.toLowerCase();
+    const statusFilter = adminStatusFilter.value;
+
+    const filteredReviews = allReviews.filter(review => {
+      const matchesSearch = review.guestName.toLowerCase().includes(searchTerm) ||
+              review.reviewText.toLowerCase().includes(searchTerm) ||
+              review.roomType.toLowerCase().includes(searchTerm) ||
+              review.guestEmail.toLowerCase().includes(searchTerm);
+      const matchesStatus = statusFilter === 'all' || review.status.toUpperCase() === statusFilter.toUpperCase();
+      return matchesSearch && matchesStatus;
+    });
+
+    // Sort by date, newest first
+    filteredReviews.sort((a, b) => new Date(b.date) - new Date(a.date));
+
+    const totalPages = Math.ceil(filteredReviews.length / ADMIN_REVIEWS_PER_PAGE);
+    currentAdminPage = Math.min(currentAdminPage, totalPages || 1); // Ensure current page is valid
+
+    const startIndex = (currentAdminPage - 1) * ADMIN_REVIEWS_PER_PAGE;
+    const endIndex = startIndex + ADMIN_REVIEWS_PER_PAGE;
+    const reviewsToDisplay = filteredReviews.slice(startIndex, endIndex);
+
+    adminReviewsTableBody.innerHTML = ''; // Clear existing rows
+
+    if (reviewsToDisplay.length === 0) {
+      adminReviewsTableBody.innerHTML = `<tr><td colspan="7" class="text-center py-8 text-gray-500">No reviews found.</td></tr>`;
+    } else {
+      reviewsToDisplay.forEach(review => {
+        const initials = review.guestName.split(' ').map(n => n[0]).join('').toUpperCase();
+        let statusClass = '';
+        if (review.status.toUpperCase() === 'PENDING') {
+          statusClass = 'bg-yellow-100 text-yellow-800';
+        } else if (review.status.toUpperCase() === 'APPROVED') {
+          statusClass = 'bg-green-100 text-green-800';
+        } else if (review.status.toUpperCase() === 'REJECTED') {
+          statusClass = 'bg-red-100 text-red-800';
+        }
+
+        const rowHtml = `
+                    <tr class="border-b border-gray-100 hover:bg-gray-50">
+                        <td class="py-4 px-4">
+                            <div class="flex items-center">
+                                <div class="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center text-primary mr-3">${initials}</div>
+                                <div>
+                                    <div class="font-medium text-gray-900">${review.guestName}</div>
+                                    <div class="text-sm text-gray-500">${review.guestEmail}</div>
+                                </div>
+                            </td>
+                        <td class="py-4 px-4 whitespace-nowrap">${review.roomType}</td>
+                        <td class="py-4 px-4">
+                            <div class="flex text-secondary">
+                                ${getStarHtml(review.rating)}
+                            </div>
+                        </td>
+                        <td class="py-4 px-4">
+                            <p class="text-gray-600 line-clamp-2">${review.reviewText}</p>
+                        </td>
+                        <td class="py-4 px-4 text-gray-500 whitespace-nowrap">${review.date}</td>
+                        <td class="py-4 px-4">
+                            <span class="px-3 py-1 rounded-full text-sm font-medium ${statusClass}">${review.status}</span>
+                        </td>
+                        <td class="py-4 px-4">
+                            <div class="flex space-x-2">
+                                <button class="w-8 h-8 flex items-center justify-center rounded hover:bg-gray-100" title="Approve" data-id="${review.id}" data-action="approve">
+                                    <i class="ri-check-line text-green-600"></i>
+                                </button>
+                                <button class="w-8 h-8 flex items-center justify-center rounded hover:bg-gray-100" title="Reject" data-id="${review.id}" data-action="reject">
+                                    <i class="ri-close-line text-red-600"></i>
+                                </button>
+                                <button class="w-8 h-8 flex items-center justify-center rounded hover:bg-gray-100" title="Edit" data-id="${review.id}" data-action="edit">
+                                    <i class="ri-edit-line text-blue-600"></i>
+                                </button>
+                                <button class="w-8 h-8 flex items-center justify-center rounded hover:bg-gray-100" title="Delete" data-id="${review.id}" data-action="delete">
+                                    <i class="ri-delete-bin-line text-gray-600"></i>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+        adminReviewsTableBody.insertAdjacentHTML('beforeend', rowHtml);
+      });
+    }
+
+    updateAdminPagination(filteredReviews.length, totalPages);
+  }
+
+  /**
+   * Updates the pagination information and buttons for the admin table.
+   * @param {number} totalReviews - Total number of filtered reviews.
+   * @param {number} totalPages - Total number of pages.
+   */
+  function updateAdminPagination(totalReviews, totalPages) {
+    const startEntry = Math.min(totalReviews, (currentAdminPage - 1) * ADMIN_REVIEWS_PER_PAGE + 1);
+    const endEntry = Math.min(totalReviews, currentAdminPage * ADMIN_REVIEWS_PER_PAGE);
+    adminPaginationInfo.textContent = `Showing ${startEntry} to ${endEntry} of ${totalReviews} entries`;
+
+    adminPaginationButtons.innerHTML = '';
+    const prevDisabled = currentAdminPage === 1 ? 'disabled' : '';
+    const nextDisabled = currentAdminPage === totalPages || totalPages === 0 ? 'disabled' : '';
+
+    adminPaginationButtons.innerHTML += `<button class="px-3 py-1 border border-gray-300 rounded-lg hover:bg-gray-50 ${prevDisabled}" onclick="changeAdminPage(${currentAdminPage - 1})">Previous</button>`;
+
+    for (let i = 1; i <= totalPages; i++) {
+      const activeClass = i === currentAdminPage ? 'bg-primary text-white' : 'border border-gray-300';
+      adminPaginationButtons.innerHTML += `<button class="px-3 py-1 rounded-lg hover:bg-gray-50 ${activeClass}" onclick="changeAdminPage(${i})">${i}</button>`;
+    }
+
+    adminPaginationButtons.innerHTML += `<button class="px-3 py-1 border border-gray-300 rounded-lg hover:bg-gray-50 ${nextDisabled}" onclick="changeAdminPage(${currentAdminPage + 1})">Next</button>`;
+  }
+
+  /**
+   * Changes the current page for the admin table.
+   * @param {number} pageNum - The page number to navigate to.
+   */
+  function changeAdminPage(pageNum) {
+    currentAdminPage = pageNum;
+    renderAdminReviews();
+  }
+
+  /**
+   * Handles actions (approve, reject, edit, delete) from the admin table.
+   * @param {Event} event - The click event.
+   */
+  async function handleAdminActions(event) {
+    const button = event.target.closest('button');
+    if (!button) return;
+
+    const reviewId = button.dataset.id;
+    const action = button.dataset.action;
+    currentReviewForAction = allReviews.find(r => r.id === reviewId); // Set current review for modal
+
+    if (!currentReviewForAction) {
+      showModal('Error', 'Review not found!', false, () => {});
+      return;
+    }
+
+    if (action === 'approve') {
+      showModal('Approve Review', 'Are you sure you want to approve this review?', false, async () => {
+        await sendUpdateReviewStatus(reviewId, 'APPROVED');
+      }, currentReviewForAction);
+    } else if (action === 'reject') {
+      showModal('Reject Review', 'Are you sure you want to reject this review?', false, async () => {
+        await sendUpdateReviewStatus(reviewId, 'REJECTED');
+      }, currentReviewForAction);
+    } else if (action === 'edit') {
+      showModal('Edit Review', 'Modify the review details below:', true, async () => {
+        const updatedReview = {
+          id: currentReviewForAction.id, // Ensure ID is preserved
+          guestName: editGuestName.value,
+          guestEmail: currentReviewForAction.guestEmail, // Email not editable in modal
+          roomType: editRoomType.value,
+          rating: parseInt(editRating.value),
+          reviewText: editReviewText.value,
+          date: currentReviewForAction.date, // Date not editable in modal
+          status: editStatus.value,
+          helpfulCount: currentReviewForAction.helpfulCount // Helpful count not editable
+        };
+        await sendUpdateReview(updatedReview);
+      }, currentReviewForAction);
+    } else if (action === 'delete') {
+      showModal('Delete Review', 'Are you sure you want to permanently delete this review? This action cannot be undone.', false, async () => {
+        await sendDeleteReview(reviewId);
+      }, currentReviewForAction);
+    }
+  }
+
+  /**
+   * Sends an updated review to the backend (for full review object update).
+   * @param {Object} updatedReview - The review object with updated fields.
+   */
+  async function sendUpdateReview(updatedReview) {
+    try {
+      const response = await fetch(`${API_BASE_URL}/${updatedReview.id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(updatedReview)
+      });
+
+      if (response.ok) {
+        showModal('Success', 'Review updated successfully!', false, () => {
+          switchView('admin'); // Refresh admin view after update
+        });
+      } else {
+        const errorText = await response.text();
+        throw new Error(`Server responded with: ${response.status} - ${errorText}`);
+      }
+    } catch (error) {
+      console.error('Error updating review:', error);
+      showModal('Update Failed', 'An error occurred while updating the review. Details: ' + error.message, false, () => {});
+    }
+  }
+
+  /**
+   * Sends a status update for a review to the backend.
+   * @param {string} reviewId - The ID of the review to update.
+   * @param {string} newStatus - The new status (e.g., 'APPROVED', 'REJECTED').
+   */
+  async function sendUpdateReviewStatus(reviewId, newStatus) {
+    try {
+      const response = await fetch(`${API_BASE_URL}/${reviewId}/status`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(newStatus) // Send status as a raw string
+      });
+
+      if (response.ok) {
+        showModal('Success', `Review status updated to ${newStatus.toLowerCase()}!`, false, () => {
+          switchView('admin'); // Refresh admin view after status update
+        });
+      } else {
+        const errorText = await response.text();
+        throw new Error(`Server responded with: ${response.status} - ${errorText}`);
+      }
+    } catch (error) {
+      console.error('Error updating review status:', error);
+      showModal('Status Update Failed', 'An error occurred while updating review status. Details: ' + error.message, false, () => {});
+    }
+  }
+
+  /**
+   * Sends a delete request for a review to the backend.
+   * @param {string} reviewId - The ID of the review to delete.
+   */
+  async function sendDeleteReview(reviewId) {
+    try {
+      const response = await fetch(`${API_BASE_URL}/${reviewId}`, {
+        method: 'DELETE',
+      });
+
+      if (response.ok) {
+        showModal('Success', 'Review deleted successfully!', false, () => {
+          switchView('admin'); // Refresh admin view after deletion
+        });
+      } else {
+        const errorText = await response.text();
+        throw new Error(`Server responded with: ${response.status} - ${errorText}`);
+      }
+    } catch (error) {
+      console.error('Error deleting review:', error);
+      showModal('Deletion Failed', 'An error occurred while deleting the review. Details: ' + error.message, false, () => {});
+    }
+  }
+
+
+  // --- Review Submission Form Functions (Create/Update) ---
+
+  /**
+   * Handles the submission of a new review or an update to an existing review.
+   * @param {Event} event - The form submission event.
+   */
+  async function handleReviewFormSubmission(event) {
+    event.preventDefault(); // Prevent default form submission
+
+    // Client-side validation
+    const selectedRating = document.querySelector('input[name="rating"]:checked');
+    if (!guestNameInput.value || !guestEmailInput.value || !selectedRating || !roomTypeSelect.value || !feedbackTextarea.value || !privacyConsentCheckbox.checked) {
+      showModal('Validation Error', 'Please fill in all required fields, provide a rating, and agree to the privacy policy.', false, () => {});
+      return;
+    }
+
+    const reviewId = reviewIdInput.value; // Check if an ID exists (for update)
+    const method = reviewId ? 'PUT' : 'POST'; // Use PUT for update, POST for create
+    const url = reviewId ? `${API_BASE_URL}/${reviewId}` : API_BASE_URL;
+
+    const reviewData = {
+      // ID is only included for PUT requests, backend generates for POST
+      ...(reviewId && { id: reviewId }),
+      guestName: guestNameInput.value,
+      guestEmail: guestEmailInput.value,
+      roomType: roomTypeSelect.value,
+      rating: parseInt(selectedRating.value),
+      reviewText: feedbackTextarea.value,
+      // date, status, helpfulCount will be generated/set by the backend for new reviews
+      // For updates, backend should preserve these or handle partial updates
+    };
+
+    try {
+      const response = await fetch(url, {
+        method: method,
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(reviewData)
+      });
+
+      if (response.ok) {
+        const actionMessage = reviewId ? 'updated' : 'submitted';
+        showModal('Success', `Your review has been successfully ${actionMessage}! It is pending approval.`, false, () => {
+          reviewForm.reset(); // Clear the form
+          ratingInputs.forEach(input => input.checked = false); // Reset star ratings
+          privacyConsentCheckbox.checked = false; // Reset privacy consent
+          switchView('guest'); // Go back to guest view after submission/update
+        });
+      } else {
+        const errorText = await response.text();
+        showModal('Submission Failed', `Failed to ${method === 'POST' ? 'submit' : 'update'} review. Server responded with: ${response.status} - ${errorText}. Please check the backend console for details.`, false, () => {});
+        console.error('Server response error:', response.status, errorText);
+      }
+    } catch (error) {
+      showModal('Error', 'An error occurred while connecting to the backend. This might be a network issue or the backend server is not running/accessible. Please ensure it\'s running on http://localhost:8081. Details: ' + error.message, false, () => {});
+      console.error('Network error:', error);
+    }
+  }
+
+
+  // --- Event Listeners ---
+
+  document.addEventListener('DOMContentLoaded', () => {
+    // Initial view on page load
+    switchView('welcome');
+
+    // Guest View Filters & Search (Delegated to renderGuestReviews)
+    if (loadMoreReviewsBtn) loadMoreReviewsBtn.addEventListener('click', () => loadMoreGuestReviews(
+            allReviews.filter(review => review.status.toUpperCase() === 'APPROVED' && // Ensure consistency with guest filter
+                    (guestRoomTypeFilter.value === 'all' || review.roomType === guestRoomTypeFilter.value) &&
+                    (parseInt(guestRatingFilter.value) === 0 || review.rating === parseInt(guestRatingFilter.value)) &&
+                    (review.guestName.toLowerCase().includes(guestSearchInput.value.toLowerCase()) ||
+                            review.reviewText.toLowerCase().includes(guestSearchInput.value.toLowerCase()) ||
+                            review.roomType.toLowerCase().includes(guestSearchInput.value.toLowerCase()))
+            ).sort((a, b) => new Date(b.date) - new Date(a.date))
+    ));
+
+    if (guestRoomTypeFilter) guestRoomTypeFilter.addEventListener('change', renderGuestReviews);
+    if (guestRatingFilter) guestRatingFilter.addEventListener('change', renderGuestReviews);
+    if (guestSearchInput) guestSearchInput.addEventListener('input', renderGuestReviews);
+
+    // Admin View Filters & Search (Delegated to renderAdminReviews)
+    if (adminSearchInput) adminSearchInput.addEventListener('input', renderAdminReviews);
+    if (adminStatusFilter) adminStatusFilter.addEventListener('change', renderAdminReviews);
+    if (adminReviewsTableBody) adminReviewsTableBody.addEventListener('click', handleAdminActions); // Event delegation for admin action buttons
+
+    // Review Form Submission (Create/Update)
+    if (reviewForm) reviewForm.addEventListener('submit', handleReviewFormSubmission);
+
+    // Clear Form Button
+    if (clearFormBtn) clearFormBtn.addEventListener('click', () => {
+      reviewForm.reset();
+      ratingInputs.forEach(input => input.checked = false);
+      privacyConsentCheckbox.checked = false;
+      formTitle.textContent = 'Submit Your Review'; // Reset title if it was "Edit"
+      reviewIdInput.value = ''; // Clear ID
+      submitReviewBtn.textContent = 'Submit Review'; // Reset button text
+      clearFormBtn.classList.remove('hidden'); // Ensure clear button is visible
+    });
+  });
+</script>
+</body>
+</html>
