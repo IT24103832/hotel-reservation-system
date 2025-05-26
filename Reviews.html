@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guest Reviews - LuxStay</title>
+    <script src="https://cdn.tailwindcss.com/3.4.16"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#4285F4',
+                        secondary: '#FFC107'
+                    },
+                    borderRadius: {
+                        'none': '0px',
+                        'sm': '4px',
+                        DEFAULT: '8px',
+                        'md': '12px',
+                        'lg': '16px',
+                        'xl': '20px',
+                        '2xl': '24px',
+                        '3xl': '32px',
+                        'full': '9999px',
+                        'button': '8px'
+                    }
+                }
+            }
+        }
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css">
+    <style>
+        :where([class^="ri-"])::before {
+            content: "\f3c2";
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+        }
+
+        .text-shadow {
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .hero-section {
+            background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)),
+            url('https://readdy.ai/api/search-image?query=luxurious hotel lobby interior with elegant marble floors and crystal chandeliers, soft golden lighting creating a warm ambiance, plush seating areas with velvet upholstery, ornate gold details on cream-colored walls, fresh flower arrangements&width=1200&height=600&seq=12345&orientation=landscape');
+            background-size: cover;
+            background-position: center;
+            min-height: 400px;
+            display: flex;
+            align-items: center;
+        }
+
+        .review-card {
+            transition: transform 0.3s ease;
+        }
+
+        .review-card:hover {
+            transform: translateY(-5px);
+        }
+    </style>
+</head>
+<body class="min-h-screen bg-gray-50">
+<!-- Navigation -->
+<nav class="bg-white shadow-md py-4 px-6 flex items-center justify-between">
+    <a href="#" class="text-3xl font-['Pacifico'] text-primary">LuxStay</a>
+    <div class="hidden md:flex items-center space-x-8">
+        <a href="#" class="text-gray-700 hover:text-primary">Home</a>
+        <div class="relative group">
+            <button class="text-gray-700 hover:text-primary flex items-center whitespace-nowrap">
+                Rooms & Suites
+                <span class="ml-1 w-4 h-4 flex items-center justify-center">
+                        <i class="ri-arrow-down-s-line"></i>
+                    </span>
+            </button>
+        </div>
+        <a href="#" class="text-gray-700 hover:text-primary">Bookings</a>
+        <a href="#" class="Reviews">Reviews</a>
+        <a href="#" class="text-gray-700 hover:text-primary">Contact</a>
+    </div>
+    <div class="flex items-center space-x-4">
+        <a href="#" class="bg-primary text-white px-4 py-2 rounded-button hover:bg-blue-600 transition duration-300 whitespace-nowrap">Sign In</a>
+    </div>
+</nav>
+
+<!-- Hero Section -->
+<section class="hero-section py-24 text-white">
+    <div class="container mx-auto px-6 relative z-10">
+        <h1 class="text-4xl md:text-5xl font-bold mb-4 text-shadow">Guest Reviews</h1>
+        <p class="text-xl mb-2 text-shadow">Discover what our guests have to say about their luxurious experience at LuxStay.</p>
+    </div>
+</section>
+
+<!-- Reviews Filter Section -->
+<section class="py-12 bg-white">
+    <div class="container mx-auto px-6">
+        <div class="flex flex-wrap items-center justify-between gap-4 mb-8">
+            <div class="flex items-center space-x-4">
+                <!-- Room Type Filter -->
+                <div class="relative">
+                    <select class="appearance-none bg-white border border-gray-300 rounded-lg px-4 py-2 pr-8 focus:outline-none focus:border-primary">
+                        <option>All Room Types</option>
+                        <option>Deluxe Room</option>
+                        <option>Executive Suite</option>
+                        <option>Presidential Suite</option>
+                        <option>Penthouse</option>
+                    </select>
+                    <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                        <i class="ri-arrow-down-s-line"></i>
+                    </div>
+                </div>
+                <!-- Rating Filter -->
+                <div class="relative">
+                    <select class="appearance-none bg-white border border-gray-300 rounded-lg px-4 py-2 pr-8 focus:outline-none focus:border-primary">
+                        <option>Rating: All</option>
+                        <option>5 Stars</option>
+                        <option>4 Stars</option>
+                        <option>3 Stars</option>
+                        <option>2 Stars</option>
+                        <option>1 Star</option>
+                    </select>
+                    <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                        <i class="ri-arrow-down-s-line"></i>
+                    </div>
+                </div>
+            </div>
+            <!-- Search Bar -->
+            <div class="relative">
+                <input type="text" placeholder="Search reviews..." class="w-full md:w-64 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-primary">
+                <button class="absolute right-3 top-1/2 transform -translate-y-1/2">
+                    <i class="ri-search-line text-gray-400"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Reviews Stats -->
+        <div class="bg-gray-50 rounded-lg p-6 mb-12">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-6 text-center">
+                <div>
+                    <h3 class="text-4xl font-bold text-primary mb-2">4.8</h3>
+                    <p class="text-gray-600">Overall Rating</p>
+                    <div class="flex justify-center mt-2 text-secondary">
+                        <i class="ri-star-fill"></i>
+                        <i class="ri-star-fill"></i>
+                        <i class="ri-star-fill"></i>
+                        <i class="ri-star-fill"></i>
+                        <i class="ri-star-half-fill"></i>
+                    </div>
+                </div>
+                <div>
+                    <h3 class="text-4xl font-bold text-primary mb-2">96%</h3>
+                    <p class="text-gray-600">Would Recommend</p>
+                </div>
+                <div>
+                    <h3 class="text-4xl font-bold text-primary mb-2">1,234</h3>
+                    <p class="text-gray-600">Total Reviews</p>
+                </div>
+                <div>
+                    <h3 class="text-4xl font-bold text-primary mb-2">98%</h3>
+                    <p class="text-gray-600">Satisfaction Rate</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Review Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- Review Card 1 -->
+            <div class="review-card bg-white rounded-lg shadow-md p-6 border border-gray-100">
+                <div class="flex items-center justify-between mb-4">
+                    <div class="flex items-center">
+                        <div class="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center text-primary font-bold">JS</div>
+                        <div class="ml-3">
+                            <h4 class="font-bold">James Sullivan</h4>
+                            <p class="text-sm text-gray-500">Executive Suite</p>
+                        </div>
+                    </div>
+                    <div class="flex text-secondary">
+                        <i class="ri-star-fill"></i>
+                        <i class="ri-star-fill"></i>
+                        <i class="ri-star-fill"></i>
+                        <i class="ri-star-fill"></i>
+                        <i class="ri-star-fill"></i>
+                    </div>
+                </div>
+                <p class="text-gray-600 mb-4">"An absolutely magnificent experience! The attention to detail and level of service exceeded all expectations. The Executive Suite was pure luxury, and the staff went above and beyond to ensure our comfort."</p>
+                <div class="flex items-center justify-between text-sm text-gray-500">
+                    <span>May 8, 2025</span>
+                    <div class="flex items-center space-x-4">
+                        <button class="flex items-center space-x-1 hover:text-primary">
+                            <i class="ri-thumb-up-line"></i>
+                            <span>Helpful (24)</span>
+                        </button>
+                        <button class="hover:text-primary">
+                            <i class="ri-share-line"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Review Card 2 -->
+            <!-- (Continue similar pattern for other review cards) -->
+        </div>
+
+        <!-- Load More Button -->
+        <div class="text-center mt-12">
+            <button class="bg-primary text-white px-8 py-3 rounded-button hover:bg-blue-600 transition duration-300">Load More Reviews</button>
+        </div>
+    </div>
+</section>
+
+<!-- Footer -->
+<footer class="bg-gray-900 text-white py-12">
+    <div class="container mx-auto px-6">
+        <!-- Footer content here -->
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+            <div>
+                <h3 class="text-2xl font-['Pacifico'] mb-4">LuxStay</h3>
+                <p class="text-gray-400">Experience luxury beyond imagination at LuxStay, where every moment is crafted for your comfort and delight.</p>
+            </div>
+            <div>
+                <h4 class="text-lg font-bold mb-4">Quick Links</h4>
+                <ul class="space-y-2">
+                    <li><a href="#" class="text-gray-400 hover:text-white">Home</a></li>
+                    <li><a href="#" class="text-gray-400 hover:text-white">Rooms & Suites</a></li>
+                    <li><a href="#" class="text-gray-400 hover:text-white">Bookings</a></li>
+                    <li><a href="#" class="text-gray-400 hover:text-white">Reviews</a></li>
+                    <li><a href="#" class="text-gray-400 hover:text-white">Contact</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="text-lg font-bold mb-4">Contact Us</h4>
+                <ul class="space-y-2 text-gray-400">
+                    <li class="flex items-start">
+<span class="w-5 h-5 flex items-center justify-center mr-2 mt-1">
+<i class="ri-map-pin-line"></i>
+</span>
+                        <span>123 Luxury Avenue, New York, NY 10001</span>
+                    </li>
+                    <li class="flex items-center">
+<span class="w-5 h-5 flex items-center justify-center mr-2">
+<i class="ri-phone-line"></i>
+</span>
+                        <span>+1 (555) 123-4567</span>
+                    </li>
+                    <li class="flex items-center">
+<span class="w-5 h-5 flex items-center justify-center mr-2">
+<i class="ri-mail-line"></i>
+</span>
+                        <span>info@luxstay.com</span>
+                    </li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="text-lg font-bold mb-4">Newsletter</h4>
+                <p class="text-gray-400 mb-4">Subscribe to receive updates on our latest offers.</p>
+                <div class="flex">
+                    <input type="email" placeholder="Your email" class="px-4 py-2 w-full rounded-l border-none text-gray-800 text-sm">
+                    <button class="bg-primary text-white px-4 py-2 rounded-r hover:bg-blue-600 transition duration-300 whitespace-nowrap">Subscribe</button>
+                </div>
+            </div>
+        </div>
+        <div class="border-t border-gray-800 mt-10 pt-6 flex flex-col md:flex-row justify-between items-center">
+            <p class="text-gray-400 text-sm">© 2025 LuxStay. All rights reserved.</p>
+            <div class="flex space-x-4 mt-4 md:mt-0">
+                <a href="#" class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center hover:bg-primary transition duration-300">
+                    <i class="ri-facebook-fill text-white"></i>
+                </a>
+                <a href="#" class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center hover:bg-primary transition duration-300">
+                    <i class="ri-twitter-x-fill text-white"></i>
+                </a>
+                <a href="#" class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center hover:bg-primary transition duration-300">
+                    <i class="ri-instagram-line text-white"></i>
+                </a>
+                <a href="#" class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center hover:bg-primary transition duration-300">
+                    <i class="ri-pinterest-fill text-white"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</footer>
+</script>
+</body>
+</html>
