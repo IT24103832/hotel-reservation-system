@@ -1,0 +1,41 @@
+[ {
+  "id" : "ebe75bbf-bca6-45a2-b6a8-82fdec4b4385",
+  "guestName" : "den",
+  "guestEmail" : "den@gmail.com",
+  "roomType" : "Executive Suite",
+  "rating" : 4,
+  "reviewText" : "Good Hotel ",
+  "date" : "2025-05-26",
+  "status" : "Rejected",
+  "helpfulCount" : 0
+}, {
+  "id" : "fdc2ad54-f0a0-42d4-9eb2-abfd26dc1715",
+  "guestName" : "Fernando",
+  "guestEmail" : "ferry@gmail.com",
+  "roomType" : "Presidential Suite",
+  "rating" : 4,
+  "reviewText" : "It has good facilities.",
+  "date" : "2025-05-26",
+  "status" : "PENDING",
+  "helpfulCount" : 0
+}, {
+  "id" : "cc53515d-0c84-4289-9b5d-f2e616b9ebe1",
+  "guestName" : "John",
+  "guestEmail" : "john@gmail.com",
+  "roomType" : "Executive Suite",
+  "rating" : 3,
+  "reviewText" : "Good pleasant place to customers.",
+  "date" : "2025-05-26",
+  "status" : "Approved",
+  "helpfulCount" : 0
+}, {
+  "id" : "99e222f5-82d9-48b3-8631-578c95c2e33f",
+  "guestName" : "Micheal",
+  "guestEmail" : "mich@gmail.com",
+  "roomType" : "Presidential Suite",
+  "rating" : 5,
+  "reviewText" : "It has very comfatorable surrounding.",
+  "date" : "2025-05-26",
+  "status" : "PENDING",
+  "helpfulCount" : 0
+} ]
